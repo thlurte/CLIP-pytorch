@@ -26,3 +26,7 @@ DistilBERT tokenizor from huggingface will be used to tokenize the sentences.
 
 `DistilBERT` is used as text encoder. This component converts each token into a dense vector and it gets processed through self-attention layers to capture the contextual relationships between tokens.
 
+## Projection Head
+
+Projection head aligns the representations of images and text into a shared feature space.
+
