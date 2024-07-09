@@ -16,7 +16,8 @@ def get_config(img_path: str, cap_path: str):
         'epoch': 4,
         'device': torch.device('cuda' if torch.cuda.is_available() else 'cpu'),
         'img_model': 'resnet50',
-        'img_embedding_size': 2048,
+        'img_embedding_dim': 2048,
+        'txt_embedding_dim': 768,
         'txt_model': 'distilbert-base-uncased',
         'max_length': 200,
         
