@@ -7,7 +7,7 @@ def get_config(img_path: str, cap_path: str):
         'caption_path': cap_path,
         'batch_size': 32,
         'num_workers': 4,
-        'head_lr': 1e-3,
+        'lr': 1e-3,
         'image_encoder_lr': 1e-4,
         'text_encoder_lr': 1e-5,
         'weight_decay': 1e-3,

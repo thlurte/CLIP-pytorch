@@ -7,7 +7,7 @@ from project import ProjectionHead
 
 from config import get_config
 
-config = get_config()
+config = get_config('/home/ahmed/lab/CLIP-pytorch/archive/Images','/home/ahmed/lab/CLIP-pytorch/archive')
 
 def cross_entropy(preds, targets, reduction='none'):
     log_softmax = torch.nn.LogSoftmax(dim=-1)

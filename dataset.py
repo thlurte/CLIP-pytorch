@@ -2,7 +2,7 @@ import cv2
 import torch
 import albumentations
 
-class Dataset(torch.utils.data.dataset):
+class Dataset(torch.utils.data.Dataset):
     def __init__(self,image_filenames, captions, tokenizer, transforms, config):
         
         # assert len(image_filenames) == len(list(captions)), "Image filenames and captions must have the same length"
@@ -32,7 +32,7 @@ class Dataset(torch.utils.data.dataset):
         
         image = cv2.imread(f"{self.config['image_path']}/{self.image_filenames[idx]}")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = cv2.transforms(image=image)['image']
+        image = self.transforms(image=image)['image']
         
         # https://pytorch.org/docs/stable/generated/torch.permute.html 
         # https://stackoverflow.com/questions/77992977/how-does-tensor-permutation-work-in-pytorch
