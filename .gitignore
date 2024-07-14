@@ -8,6 +8,7 @@ __pycache__/
 
 # Dataset
 archive/*
+weights/*
 
 # Distribution / packaging
 .Python

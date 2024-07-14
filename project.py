@@ -9,7 +9,7 @@ class ProjectionHead(torch.nn.Module):
         self.dropout = config['dropout']
         
         self.projection = torch.nn.Linear(embedding_dim, self.projection_dim)
-        self.gelu = torch.nn.GELU(),
+        self.gelu = torch.nn.GELU()
         self.fc = torch.nn.Linear(self.projection_dim, self.projection_dim)
         
         self.dropout = torch.nn.Dropout(self.dropout)
