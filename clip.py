@@ -18,16 +18,6 @@ def cross_entropy(preds, targets, reduction='none'):
     elif reduction == 'mean':
         return loss.mean()
 
-class ContrastiveLoss(nn.Module):
-    def __init__(self,margin=1.0):
-        super(ContrastiveLoss,self).__init__()
-        self.margin = margin
-        
-    def forward(self,output1,output2,label):
-        euclidean_distance = nn.functional.pairwise_distance(output1,output2)
-        loss_contrastive = torch.mean((1-label)*torch.pow(euclidean_distance,2)+(label)*torch.pow(torch.clamp(self.margin-euclidean_distance,min=0.0),2))
-        return loss_contrastive
-
 class CLIP(torch.nn.Module):
     def __init__(
         self,
@@ -44,7 +34,6 @@ class CLIP(torch.nn.Module):
         self.text_encoder = TextEncoder(self.config)
         self.image_projection = ProjectionHead(embedding_dim=self.image_embedding, config=config)
         self.text_projection = ProjectionHead(embedding_dim=self.text_embedding, config=config)
-        self.contrastive_loss = ContrastiveLoss()
         
     def forward(self,batch):
         image_features = self.image_encoder(batch['image'])
@@ -52,10 +41,16 @@ class CLIP(torch.nn.Module):
         
         image_embeddings = self.image_projection(image_features)
         text_embeddings = self.text_projection(text_features)
-        
-        labels = torch.eye(batch['image'].size(0)).to(image_embeddings.device)
-
-        loss = self.contrastive_loss(image_embeddings, text_embeddings, labels)
-        return loss
+         # Calculating the Loss
+        logits = (text_embeddings @ image_embeddings.T) / self.temperature
+        images_similarity = image_embeddings @ image_embeddings.T
+        texts_similarity = text_embeddings @ text_embeddings.T
+        targets = functional.softmax(
+            (images_similarity + texts_similarity) / 2 * self.temperature, dim=-1
+        )
+        texts_loss = cross_entropy(logits, targets, reduction='none')
+        images_loss = cross_entropy(logits.T, targets.T, reduction='none')
+        loss =  (images_loss + texts_loss) / 2.0 # shape: (batch_size)
+        return loss.mean()       
         
         

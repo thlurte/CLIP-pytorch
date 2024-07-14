@@ -33,5 +33,18 @@ The CLIP has two important components, a text encoder and an image encoder.
 
 Projection head aligns the representations of images and text into a shared feature space.
 
-### Training
+$$
+y = LayerNorm(Dropout(GELU(W_2(GELU(W_1x))+x)))
+$$
 
+## Training
+
+During the training phase of the model, it will learn an embedding space where similar sample pairs stay close to each other while dissimilar ones are far aprt.
+
+For example, givem `n` examples in the form of (anchor, positive, negative). We embed the images and train the model in such a way that the distance between the two embeddings for the same class, distance(anchor, positive), gets minimised and the distance between the two embeddings of different class, distance(anchor, negative), gets maximised. 
+
+
+$$
+L = \frac{1}{2N} \sum_{i=1}^{N} \left[ (1 - y_i) D^2 + y_i \max(0, m - D)^2 \right]
+
+$$

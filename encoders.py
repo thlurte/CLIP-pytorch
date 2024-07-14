@@ -30,7 +30,7 @@ class TextEncoder(torch.nn.Module):
         if self.pretrained:
             self.model = DistilBertModel.from_pretrained(self.model_name)
         else:
-            self.model = DistilBertModel(config=DistilBertConfig)
+            self.model = DistilBertModel(config=DistilBertConfig())
             
         for p in self.model.parameters():
             p.requires_grad = self.trainable
