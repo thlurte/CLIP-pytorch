@@ -4,7 +4,7 @@
   <img src="assets/a.png" alt="">
 </p>
 
-CLIP helps us to learn representations of images and text in a shared embedding space.
+CLIP  is a joint image and text embedding model helps us to learn representations of images and text in a shared embedding space.
 
 ## Dataset
 
@@ -16,17 +16,22 @@ In this case, `Flickr 8k Dataset` has been used to train and validate the model.
 
 DistilBERT tokenizor from huggingface will be used to tokenize the sentences.
 
-## Encoders
+## Architecture
+The CLIP has two important components, a text encoder and an image encoder.
 
-### Image Encoder
+### Encoders
+
+#### Image Encoder
 
 `Resnet50` is used as image encoder. This component extracts features from raw image data and generates an embedding (a fixed-size vector) that represents the image in a high-dimensional space. 
 
-### Text Encoder
+#### Text Encoder
 
 `DistilBERT` is used as text encoder. This component converts each token into a dense vector and it gets processed through self-attention layers to capture the contextual relationships between tokens.
 
-## Projection Head
+### Projection Head
 
 Projection head aligns the representations of images and text into a shared feature space.
+
+### Training
 
